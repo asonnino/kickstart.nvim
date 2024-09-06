@@ -325,6 +325,26 @@ require('lazy').setup({
     },
   },
 
+  {
+    'lervag/vimtex',
+    lazy = false, -- we don't want to lazy load VimTeX
+    -- tag = "v2.15", -- uncomment to pin to a specific release
+    init = function()
+      -- VimTeX configuration goes here, e.g.
+      vim.g.vimtex_view_method = 'skim'
+      -- vim.g.vimtex_log_ignore = vim.empty_dict() -- Ensures all logs are shown
+      vim.g.vimtex_compiler_latexmk = {
+        continuous = 1,
+        options = {
+          '-synctex=1',
+          '-interaction=nonstopmode',
+          '-file-line-error',
+        },
+      }
+      vim.api.nvim_set_keymap('n', '<leader>lv', '<cmd>VimtexView<CR>', { noremap = true, silent = true })
+    end,
+  },
+
   -- NOTE: Plugins can specify dependencies.
   --
   -- The dependencies are proper plugin specifications as well - anything
@@ -647,6 +667,7 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'latexindent', -- Used to format tex code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -699,6 +720,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        tex = { 'latexindent' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
