@@ -58,17 +58,17 @@ Kickstart Guide:
 
   Next, run AND READ `:help`.
     This will open up a help window with some basic information
-    about reading, navigating and searching the builtin help documentation.
+    about reading, navigating and searching the built-in help documentation.
 
     This should be the first place you go to look when you're stuck or confused
-    with something. It's one of my favorite Neovim features.
+    with something. It's one of my favourite Neovim features.
 
     MOST IMPORTANTLY, we provide a keymap "<space>sh" to [s]earch the [h]elp documentation,
     which is very useful when you're not exactly sure of what you're looking for.
 
   I have left several `:help X` comments throughout the init.lua
     These are hints about where to find more information about the relevant settings,
-    plugins or Neovim features used in Kickstart.
+    plug-in or Neovim features used in Kickstart.
 
    NOTE: Look for lines like this
 
@@ -157,6 +157,18 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Soft-break words on whitespaces.
+vim.opt.linebreak = true
+
+-- Enable spell checking globally
+vim.opt.spell = true
+vim.opt.spelllang = { 'en_gb' }
+
+-- Replace TAB with 4 spaces
+vim.opt.tabstop = 4 -- Insert 4 spaces for a tab
+vim.opt.shiftwidth = 4 -- Change the number of space characters inserted for indentation
+vim.opt.expandtab = true -- Converts tabs to spaces
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -196,6 +208,15 @@ vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
 vim.keymap.set('v', 'jk', '<Esc>', { noremap = true, silent = true })
 -- Remap 'jk' to escape in normal mode
 vim.keymap.set('n', 'jk', '<Esc>', { noremap = true, silent = true })
+
+-- Move cursor through long soft-wrapped lines
+vim.keymap.set('n', 'j', function()
+  return vim.v.count == 0 and 'gj' or 'j'
+end, { expr = true })
+
+vim.keymap.set('n', 'k', function()
+  return vim.v.count == 0 and 'gk' or 'k'
+end, { expr = true })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
